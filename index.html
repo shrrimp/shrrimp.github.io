@@ -233,21 +233,22 @@
       <div>
         <div class="frame">
           <div class="ratio">
-            <iframe src="https://youtu.be/ojn_7uFqDo4"
-              title="Heavy Metal - Voxel Global Illumination Demo - Shop"
-              allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
-              allowfullscreen loading="lazy"></iframe>
-          </div>
-          <p class="cap">Raytraced voxel scene, physics and indirect lighting, real time. [WIP]</p>
-        </div>
-        <div class="frame">
-          <div class="ratio">
             <image
               class=""
               src="./images/heavy_metal_banner.webp"
             />
           </div>
           <p class="cap">Simulated machines, fully editable by the player.</p>
+        </div>
+        <div class="frame">
+          <div class="ratio">
+            <iframe src="https://www.youtube.com/embed/ojn_7uFqDo4"
+              title="Heavy Metal - Voxel Global Illumination Demo - Shop"
+              allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
+              allowfullscreen loading="lazy">
+            </iframe>
+          </div>
+          <p class="cap">Raytraced voxel scene, physics and indirect lighting, real time. [WIP]</p>
         </div>
       </div>
 
@@ -339,6 +340,12 @@
         <p>Billing runs on Stripe Connect with direct charges, so each coach stays the
         merchant of record. That meant handling connected account onboarding and the KYC
         flow, which is the part nobody tells you about.</p>
+
+        <p>I use a hybrid approach for cloud storage, leveraging AWS S3 and Cloudflare R2 for 
+        best performance and cost efficiency. S3 for data that needs to be updated instantly 
+        (programs, analytics data, documents) and
+        R2 for data that doesn't change but is requested very often
+        (images, videos, audios)</p>
         
         <a 
           href="https://coachforce.fr" 
