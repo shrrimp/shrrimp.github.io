@@ -43,11 +43,6 @@
     color:var(--bone);
     text-decoration:none;
     border-bottom:1px solid var(--bounce);
-    height: 24px;
-  }
-  a:hover{
-    transition: all 150ms ease-in-out;
-    height:32px;
   }
   a:hover{color:var(--bounce)}
   a:focus-visible{outline:2px solid var(--bounce);outline-offset:3px}
@@ -163,7 +158,17 @@
     max-width:20ch;
     line-height:1.15;
   }
-  .hard p{max-width:68ch;margin-bottom:1.3rem}
+  .hard h3{
+    font-family:var(--display);
+    font-weight:500;
+    font-size:clamp(1.125rem,2.4vw,1.5rem);
+    letter-spacing:-.02em;
+    margin-top:2.5rem;
+    margin-bottom:0.6rem;
+    max-width:20ch;
+    line-height:1.15;
+  }
+  .hard p{max-width:68ch;margin-bottom:1.3rem;margin-left:1.25rem;}
   .hard p:last-child{margin-bottom:0}
 
   /* ---------- foot ---------- */
@@ -204,7 +209,7 @@
   <section class="hero">
     <h1>Jules De Meo</h1>
     <p class="under">I write C/C++ and web languages for various projects.<br/>
-    My recent projects are a game engine in C++20 & Vulkan, A SaaS platform that I built and
+    My recent projects are a game engine in C++20 & Vulkan, a SaaS platform that I built and
     deployed on my own. On the side I design analog circuits and build various things. This page is
     there to give a window into those projects that aren't publicly available.</p>
     <p class="where">Student at 42 Perpignan · relocating to Czechia · English and French</p>
@@ -233,8 +238,8 @@
       <div>
         <div class="frame">
           <div class="ratio">
-            <image
-              class=""
+            <img
+              alt="Heavy Metal Banner"
               src="./images/heavy_metal_banner.webp"
             />
           </div>
@@ -266,9 +271,9 @@
         <p>Scenes are fully dynamic and destructible at 5 cm resolution, with
         realistic physics on a custom joint system. The engine targets midrange hardware.</p>
 
-        <p>My work is currently exclusively targetting the engine, creating the stable systems and
-        a good ecosystem to then work of the game itself. The game is Heavy Metal, largely inspired by Teardown
-        The idea is a machine building game where players assemble heavy machinery to solve levels</p>
+        <p>My work is currently exclusively targeting the engine, creating the stable systems and
+        a good ecosystem to then work on the game itself. The game is Heavy Metal, largely inspired by Teardown:
+        the idea is a machine building game where players assemble heavy machinery to solve levels</p>
       </div>
     </div>
   </section>
@@ -347,18 +352,18 @@
         R2 for data that doesn't change but is requested very often
         (images, videos, audios)</p>
         
-        <a 
-          href="https://coachforce.fr" 
-          target="_blank"
-        >
-          coachforce.fr
-        </a>
+        <p><a 
+            href="https://coachforce.fr" 
+            target="_blank"
+          >
+            coachforce.fr
+        </a></p>
       </div>
     </div>
   </section>
 
   <!-- ==================== CIRCUITS ==================== -->
-  <section class="work">
+  <!-- <section class="work">
     <div class="work-head">
       <h2>Pedals, and the tooling around them</h2>
       <span class="stack">CircuiTikz · LaTeX · ngspice · Git</span>
@@ -384,13 +389,13 @@
         it can see what it just changed.</p>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- ==================== HARD ==================== -->
   <section class="hard">
     <h2>The parts that were actually hard</h2>
 
-    <h3>Heavy Metal</h3>
+    <h3>⹃ Heavy Metal</h3>
     <p>I rebuilt the engine's traversal many times, octrees, BVHs, HW RayTracing.
     Each switch was made on measured evidence, with reproducible tests,
     and I kept every superseded version instead of deleting it. A structurally different
@@ -414,12 +419,14 @@
     a frame's budget; the factorisation answers the whole island at once, and keeps
     the answer stable from one sub-step to the next.</p>
 
-    <h3>CoachForce</h3>
-    <p>On CoachForce, the hard part was not really technical. Building alone for multiple months means
-    every decision about what ships, what waits and what gets removed is yours, no one is there to guide you,
-    there is nobody to decide what to ship. I had to learn those skills, first by really understanding what each choice gives and costs,
-    and questioning each decision. Then by talking to around fifty coaches, managing the roadmap based
-    on real needs rather than what I wanted to ship, and allocating my time carefully depending on what the users need</p>
+    <h3>⹃ CoachForce</h3>
+    <p>On CoachForce, the hard part was not technical. Building alone for months means
+    every decision about what ships, what waits and what gets cut is yours, with
+    nobody to check it against. I had to learn that by understanding what each choice
+    costs, and then by talking to around fifty coaches and managing the roadmap
+    around real needs rather than what I felt like building.</p>
+
+    <p>The technical part had it's challenges, but nothing unusual.</p>
 
     <p>What I have not done is work inside an engineering team. No code review from someone
     who knows the codebase better than I do, no estimate I had to defend, no handover. That
