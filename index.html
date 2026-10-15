@@ -247,6 +247,7 @@
         </div>
         <div class="frame">
           <div class="ratio">
+            <!-- ?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID&controls=0&disablekb=1&playsinline=1&rel=0 -->
             <iframe src="https://www.youtube.com/embed/ojn_7uFqDo4"
               title="Heavy Metal - Voxel Global Illumination Demo - Shop"
               allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
@@ -254,6 +255,16 @@
             </iframe>
           </div>
           <p class="cap">Raytraced voxel scene, physics and indirect lighting, real time. [WIP]</p>
+        </div>
+        <div class="frame">
+          <div class="ratio">
+            <iframe src="https://www.youtube.com/embed/VFehGWf1e1U?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID&controls=0&disablekb=1&playsinline=1&rel=0"
+              title="Heavy Metal - Voxel Physics Demo"
+              allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
+              allowfullscreen loading="lazy">
+            </iframe>
+          </div>
+          <p class="cap">Physics demo of my custom physics solver, a featherstone based algorithm that I will release as a general purpose open-source library</p>
         </div>
       </div>
 
@@ -402,22 +413,27 @@
     implementation that renders an identical image is the only reliable way to catch bugs
     that depend on tree shape, and it caught several, that I fixed.</p>
 
-    <p>The physics sim was the hardest part. I went for the mainstream approach: maximal
-    coordinates, velocity-level rows, sequential impulses, soft sub-stepped contacts.
-    And that is still most of what runs. Where it stopped being enough was because of the game theme: 
-    the machines I want are full of closed joint loops, working under heavy load.
-    </p>
+    <p>The physics sim was the hardest part. I started with the mainstream approach: maximal
+    coordinates, velocity-level rows, sequential impulses, soft sub-stepped contacts. That holds
+    up for loose bodies, but the machines I want are full of closed joint loops working under
+    heavy load, and a solver that gives every part its own six degrees of freedom and pulls
+    them back together with constraints is always fighting itself there: joints stretch under
+    load, and light parts have to be made artificially heavy to stay attached.</p>
 
-    <p>A closed loop is over-constrained: the solver's answer picks up a component
-    that pushes on nothing, so nothing can see it or remove it, and it compounds
-    every sub-step until the mechanism explodes.</p>
+    <p>Machines now run on a Featherstone-based prototype of the physics library I'm writing,
+    tested inside the game on the real machines before I release it as open source. Each machine
+    is one articulation in reduced coordinates: the joints themselves are the state, so a hinge
+    cannot stretch or tilt by construction, and every part keeps its real mass. Loops are cut at
+    one passive bearing to make a tree, and whatever the tree can't hold on its own (loop
+    closures, springs, most drives) is solved directly, once per machine per sub-step, exactly
+    instead of iterated. Contacts stay on the existing pipeline but push on the machine through
+    its effective mobility, so a wheel on the ground feels the whole linkage behind it.</p>
 
-    <p>Two things fixed it. Every joint row got a trust region that bleeds off
-    whatever the rows cannot account for, and connected sets of rigid joint rows
-    get grouped into islands solved as one by dense factorisation instead of
-    sweeping. A sweep moves load one row per iteration and never catches up inside
-    a frame's budget; the factorisation answers the whole island at once, and keeps
-    the answer stable from one sub-step to the next.</p>
+    <p>The rest of the engine doesn't notice: the editor, collision and sleeping still see
+    ordinary bodies. I benchmarked it against my previous solver and Project Chrono, the open
+    alternative to AGX Dynamics, on every machine scene. It holds all of them but one, where
+    Chrono fails four, keeps every tree joint exact, and runs the heaviest test scene in 7 ms of
+    physics per frame against 17 for the old solver and 20 for Chrono.</p>
 
     <h3>⹃ CoachForce</h3>
     <p>On CoachForce, the hard part was not technical. Building alone for months means
