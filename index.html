@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Jules De Meo — engine, product, circuits</title>
-<meta name="description" content="Raytraced voxel engine in C++20 and Vulkan, a SaaS shipped solo, and analog circuits. Work by Jules De Meo.">
+<title>Jules De Meo — machine physics, rendering, product</title>
+<meta name="description" content="C++ developer. Heavy Feather, an open-source physics library for heavy machines; a fully raytraced voxel engine in C++20 and Vulkan; a SaaS platform built and run solo.">
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=supreme@400,500&display=swap">
 <style>
@@ -38,6 +38,12 @@
 
   .wrap{max-width:1100px;margin:0 auto;padding:0 28px}
 
+  .logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 25%;
+  }
+
   a{
     transition: all 150ms ease-in-out;
     color:var(--bone);
@@ -59,7 +65,7 @@
   }
   .hero .under{
     margin-top:2rem;
-    max-width:56ch;
+    max-width:58ch;
     font-size:1.12rem;
     color:var(--bone);
   }
@@ -67,6 +73,14 @@
     margin-top:1.6rem;
     font-size:.95rem;
     color:var(--bone-dim);
+    max-width:58ch;
+  }
+  .hero .links{
+    margin-top:1.6rem;
+    display:flex;
+    gap:1.6rem;
+    flex-wrap:wrap;
+    font-size:.98rem;
   }
 
   /* ---------- work block ---------- */
@@ -104,7 +118,9 @@
     margin-top:2.2rem;
     align-items:start;
   }
+  .cols.solo{grid-template-columns:1fr}
   .cols p{margin-bottom:1.1rem;max-width:62ch}
+  .cols.solo p{max-width:68ch}
   .cols p:last-child{margin-bottom:0}
 
   /* media */
@@ -184,6 +200,11 @@
     max-width:26ch;
     line-height:1.2;
   }
+  footer .next{
+    margin-top:1.4rem;
+    max-width:60ch;
+    color:var(--bone-dim);
+  }
   footer .links{
     margin-top:2rem;
     display:flex;
@@ -208,14 +229,95 @@
 
   <section class="hero">
     <h1>Jules De Meo</h1>
-    <p class="under">I write C/C++ and web languages for various projects.<br/>
-    My recent projects are a game engine in C++20 & Vulkan, a SaaS platform that I built and
-    deployed on my own. On the side I design analog circuits and build various things. This page is
-    there to give a window into those projects that aren't publicly available.</p>
-    <p class="where">Student at 42 Perpignan · relocating to Czechia · English and French</p>
+    <p class="under">I write C++ that makes heavy machines move: an open-source physics
+    library for articulated machines under load, and a fully raytraced voxel engine to run
+    them in. I also built and run a SaaS platform on my own, from the database to billing
+    to sales. On the side, I design analog circuits.</p>
+    <p class="where">Completed the 42 Perpignan curriculum. Based in the Czech Republic.
+    English and French, learning Czech.</p>
+    <div class="links">
+      <!-- Put your CV in the repo as cv.pdf, next to index.html -->
+      <a href="./cv.pdf" target="_blank">CV (PDF)</a>
+      <a href="https://github.com/shrrimp">GitHub</a>
+      <a href="mailto:julesdemeo05@gmail.com">julesdemeo05@gmail.com</a>
+    </div>
   </section>
 
-  <!-- ==================== ENGINE ==================== -->
+  <!-- ==================== HEAVY FEATHER ==================== -->
+  <section class="work">
+    <div class="work-head">
+      <img src="./images/heavy-feather.png" class="logo"/>
+      <h2>Heavy Feather</h2>
+      <span class="stack">
+        ⸻
+        <img 
+          style="width: 24px; height: 24px;"
+          title="C++20"
+          src="https://cdn.simpleicons.org/cplusplus/00599C"
+        />
+        open source, MIT
+      </span>
+    </div>
+
+    <div class="cols">
+      <div>
+        <div class="frame">
+          <div class="ratio">
+            <!-- Replace NEW_VIDEO_ID with the ID of the new machines video -->
+            <iframe src="https://www.youtube.com/embed/N_Ow2Z4rFAE"
+              title="Heavy Feather - real-time heavy machinery physics (C++, open source)"
+              allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
+              allowfullscreen loading="lazy">
+            </iframe>
+          </div>
+          <p class="cap">Machines working under load, captured in real time, with forces drawn live.</p>
+        </div>
+
+        <div class="frame">
+          <div class="ratio">
+            <img
+              alt="Heavy Feather screenshot"
+              src="./images/excavator-load.png"
+            />
+          </div>
+          <p class="cap">Forces debug view, large loads on the arm.</p>
+        </div>
+      </div>
+
+      <div>
+        <p>The physics of Heavy Metal, extracted into a standalone open-source library. It
+        simulates things built from parts that push hard on each other: linkages,
+        hydraulic arms, cranes, presses, drivetrains. I found no open-source engine that
+        could do that, and fast, so I wrote one.</p>
+
+        <p>Each machine is solved as one Featherstone articulation, in <strong>reduced
+        coordinates</strong>: a part's pose comes from its parent's instead of being pulled
+        back toward it, so joints hold exactly under load and every part keeps its real
+        mass, however lopsided the masses get. What the tree can't express, closed loops,
+        motors, limits and springs, is solved directly for the whole machine at once.</p>
+
+        <p>Pistons and servos behave like hydraulics: rigid once the valve shuts, stopped
+        where they are when the lever is released. Contacts are solved through the machine,
+        so a wheel on the ground feels the mass of everything attached to it, and cams and
+        gears are solved exactly with their machine. Ropes run over pulleys and wind onto
+        spools. Heavy Metal draws the forces live on the machine.</p>
+
+        <p>C++20 and no dependencies. Steps are deterministic, bit for bit, and allocate
+        nothing once warm. Every change to main is built and tested on GCC, Clang and MSVC,
+        one build under AddressSanitizer.</p>
+
+        <p><a href="https://github.com/shrrimp/heavy-feather" target="_blank">github.com/shrrimp/heavy-feather</a></p>
+      </div>
+    </div>
+
+    <div class="measured">
+      <div><p class="n">190</p><p class="l">tests, most of them physics an engineer could predict on paper</p></div>
+      <div><p class="n">3</p><p class="l">compilers in CI, plus a package check that builds a host against the installed library</p></div>
+      <div><p class="n">0</p><p class="l">dependencies, and no allocation once a step is warm</p></div>
+    </div>
+  </section>
+
+  <!-- ==================== HEAVY METAL ==================== -->
   <section class="work">
     <div class="work-head">
       <h2>Heavy Metal</h2>
@@ -239,7 +341,7 @@
         <div class="frame">
           <div class="ratio">
             <img
-              alt="Heavy Metal Banner"
+              alt="Heavy Metal banner"
               src="./images/heavy_metal_banner.webp"
             />
           </div>
@@ -247,44 +349,34 @@
         </div>
         <div class="frame">
           <div class="ratio">
-            <!-- ?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID&controls=0&disablekb=1&playsinline=1&rel=0 -->
             <iframe src="https://www.youtube.com/embed/ojn_7uFqDo4"
               title="Heavy Metal - Voxel Global Illumination Demo - Shop"
               allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
               allowfullscreen loading="lazy">
             </iframe>
           </div>
-          <p class="cap">Raytraced voxel scene, physics and indirect lighting, real time. [WIP]</p>
-        </div>
-        <div class="frame">
-          <div class="ratio">
-            <iframe src="https://www.youtube.com/embed/VFehGWf1e1U?autoplay=1&mute=1&loop=1&playlist=VFehGWf1e1U&controls=0&disablekb=1&playsinline=1&rel=0"
-              title="Heavy Metal - Voxel Physics Demo"
-              allow="autoplay; accelerometer; clipboard-write; encrypted-media; picture-in-picture"
-              allowfullscreen loading="lazy">
-            </iframe>
-          </div>
-          <p class="cap">Physics demo of my custom physics solver, a featherstone based algorithm that I will release as a general purpose open-source library</p>
+          <p class="cap">Raytraced voxel scene, physics and indirect lighting, in real time.</p>
         </div>
       </div>
 
       <div>
-        <p>A fully raytraced voxel engine. There is no rasterization anywhere in the
-        frame, including primary visibility, and global illumination is computed from
-        real geometry, dynamically, with minimal accumulation.</p>
+        <p>A fully raytraced voxel engine in C++20 and Vulkan. There is no rasterization
+        anywhere in the frame, including primary visibility, and global illumination is
+        computed from real geometry, dynamically, from an octree of radiance probes placed
+        according to the camera and the scene.</p>
 
-        <p>The constraint that shapes everything: <strong>minimal usage of accumulation</strong>. 
-        Everything needs to update quickly, the scenes are designed to be highly dynamic,
-        an excessive use of temporal accumulation and denoising would introduce very visible artifacts.
-        It means the budget has to be met by making the work genuinely cheap, which rules
-        out the standard approach and forces new techniques, specifically designed for this engine.</p>
+        <p>The constraint that shapes everything: <strong>minimal temporal accumulation</strong>.
+        Scenes are built to change constantly, and leaning on accumulation and denoising
+        would leave visible trails behind every moving part. The frame budget has to be met
+        by making the work genuinely cheap, which rules out the standard approach and forced
+        me to design techniques specifically for this engine.</p>
 
-        <p>Scenes are fully dynamic and destructible at 5 cm resolution, with
-        realistic physics on a custom joint system. The engine targets midrange hardware.</p>
+        <p>Scenes are fully dynamic and destructible at 5 cm resolution, with machine
+        physics from Heavy Feather. The engine targets midrange hardware.</p>
 
-        <p>My work is currently exclusively targeting the engine, creating the stable systems and
-        a good ecosystem to then work on the game itself. The game is Heavy Metal, largely inspired by Teardown:
-        the idea is a machine building game where players assemble heavy machinery to solve levels</p>
+        <p>Heavy Metal is the game the engine exists for: a sandbox in the spirit of
+        Teardown, where players assemble heavy machinery from voxel parts, drive it with
+        simulated hydraulic cylinders and pumps, and use it to solve levels.</p>
       </div>
     </div>
   </section>
@@ -344,117 +436,118 @@
 
       <div>
         <p>A multi-tenant platform where strength coaches write training programs, track
-        athlete progress and bill their clients. Architecture, code, design and the
-        commercial side, all done myself. It is deployed and in production.</p>
+        their athletes' progress and bill their clients, on the web and in a mobile app.
+        Architecture, code, design and the commercial side: all mine. It is deployed and in
+        production.</p>
 
         <p>The interesting part is the analytics layer: estimated 1RM, RPE-based load
         prescription, tonnage and acute-to-chronic workload ratio, computed across an
-        athlete's whole history. I compete in powerlifting at national level, which is why
-        I knew what the numbers needed to mean before I wrote them. 
-        This is there to show the coaches what they wouldn't see otherwise.</p>
+        athlete's whole history. I compete in powerlifting at national level, so I knew what
+        the numbers needed to mean before I wrote them. They show coaches trends they would
+        never spot in a spreadsheet.</p>
 
         <p>Billing runs on Stripe Connect with direct charges, so each coach stays the
-        merchant of record. That meant handling connected account onboarding and the KYC
-        flow, which is the part nobody tells you about.</p>
+        merchant of record. That meant handling connected-account onboarding and the KYC
+        flow, the part nobody tells you about.</p>
 
-        <p>I use a hybrid approach for cloud storage, leveraging AWS S3 and Cloudflare R2 for 
-        best performance and cost efficiency. S3 for data that needs to be updated instantly 
-        (programs, analytics data, documents) and
-        R2 for data that doesn't change but is requested very often
-        (images, videos, audios)</p>
+        <p>Storage is split by access pattern: AWS S3 for data that changes often (programs,
+        analytics data, documents), Cloudflare R2 for media that rarely changes but is read
+        constantly (images, video, audio), which keeps both latency and bandwidth costs
+        down.</p>
         
-        <p><a 
-            href="https://coachforce.fr/en" 
-            target="_blank"
-          >
-            coachforce.fr
-        </a></p>
+        <p><a href="https://coachforce.fr/en" target="_blank">coachforce.fr</a></p>
       </div>
     </div>
   </section>
 
   <!-- ==================== CIRCUITS ==================== -->
-  <!-- <section class="work">
+  <section class="work">
     <div class="work-head">
-      <h2>Pedals, and the tooling around them</h2>
-      <span class="stack">CircuiTikz · LaTeX · ngspice · Git</span>
+      <h2>Guitar pedals</h2>
+      <span class="stack">⸻ ngspice • LTspice • CircuiTikz</span>
     </div>
 
-    <div class="cols">
-      <div>
-        <div class="frame">
-          <img src="SCHEMATIC_RENDER.svg" alt="Guitar pedal schematic, rendered from CircuiTikz">
-          <p class="cap">Overdrive schematic, typeset in CircuiTikz.</p>
-        </div>
+    <!-- To add a schematic: remove "solo" from the class below and uncomment the frame. -->
+    <div class="cols solo">
+      <!--
+      <div class="frame">
+        <img src="./images/snake_schematic.svg" alt="Snake pedal schematic, typeset in CircuiTikz">
+        <p class="cap">The Snake: overdrive and distortion in one pedal, typeset in CircuiTikz.</p>
       </div>
-
+      -->
       <div>
-        <p>Original guitar effect circuits: op-amp biasing, clipping topologies, simulated
-        in ngspice, then built on veroboard and debugged with an oscilloscope.</p>
+        <p>Original guitar effect circuits, designed from the schematic up. The latest, the
+        Snake, combines a TL072 overdrive with a RAT-style distortion, JFET buffers and a
+        state-variable filter crossover between the two.</p>
 
-        <p>The part I find more interesting is the tooling I built so a language model
-        could actually work on schematics with me. Git-backed persistence so design state
-        survives across sessions, a LaTeX-to-SVG render pipeline giving visual feedback on
-        every edit, and a written workflow spec constraining how the model researches,
-        modifies and commits a circuit. Without the render loop it is guessing; with it,
-        it can see what it just changed.</p>
+        <p>Every circuit is simulated in ngspice or LTspice, drawn in CircuiTikz, built on
+        veroboard and debugged on the bench with an oscilloscope. I have also built an
+        electric guitar, and amplifiers from salvaged chassis. The habit carries straight
+        over to software: model it, build it, then measure it.</p>
       </div>
     </div>
-  </section> -->
+  </section>
 
   <!-- ==================== HARD ==================== -->
   <section class="hard">
     <h2>The parts that were actually hard</h2>
 
-    <h3>⹃ Heavy Metal</h3>
-    <p>I rebuilt the engine's traversal many times, octrees, BVHs, HW RayTracing.
-    Each switch was made on measured evidence, with reproducible tests,
-    and I kept every superseded version instead of deleting it. A structurally different
+    <h3>⹃ Rendering</h3>
+    <p>I rebuilt the engine's traversal several times: octrees, BVHs, hardware ray
+    tracing. Each switch was made on measured evidence, with reproducible tests, and I kept
+    every superseded version instead of deleting it. A structurally different
     implementation that renders an identical image is the only reliable way to catch bugs
-    that depend on tree shape, and it caught several, that I fixed.</p>
+    that depend on tree shape. It caught several, and I fixed them.</p>
 
-    <p>The physics sim was the hardest part. I started with the mainstream approach: maximal
-    coordinates, velocity-level rows, sequential impulses, soft sub-stepped contacts. That holds
-    up for loose bodies, but the machines I want are full of closed joint loops working under
-    heavy load, and a solver that gives every part its own six degrees of freedom and pulls
-    them back together with constraints is always fighting itself there: joints stretch under
-    load, and light parts have to be made artificially heavy to stay attached.</p>
+    <h3>⹃ Physics</h3>
+    <p>Physics was the hardest part of the whole project, and it took two formulations. My
+    first solver was the standard game-engine one: maximal coordinates, sequential impulses.
+    It broke on exactly what the game is about. A closed loop of joints under heavy load is
+    over-constrained, the solver builds up a force that pushes on nothing, and it grows
+    every sub-step until the mechanism explodes. I patched it twice, then stopped patching
+    and changed formulation. After building basic 2D and 3D engines, I wrote a first,
+    unoptimised Featherstone implementation to understand it from the inside, prototyped
+    the machine solver inside Heavy Metal, and once it held up, turned it into Heavy
+    Feather.</p>
 
-    <p>Machines now run on a Featherstone-based prototype of the physics library I'm writing,
-    tested inside the game on the real machines before I release it as open source. Each machine
-    is one articulation in reduced coordinates: the joints themselves are the state, so a hinge
-    cannot stretch or tilt by construction, and every part keeps its real mass. Loops are cut at
-    one passive bearing to make a tree, and whatever the tree can't hold on its own (loop
-    closures, springs, most drives) is solved directly, once per machine per sub-step, exactly
-    instead of iterated. Contacts stay on the existing pipeline but push on the machine through
-    its effective mobility, so a wheel on the ground feels the whole linkage behind it.</p>
+    <p>Reduced coordinates make the tree exact, and move the difficulty to everything a tree
+    can't express. On a machine that is the rule, not the exception: a hydraulic cylinder
+    between a chassis and a boom closes a loop, so every hydraulic arm is a four-bar. Each
+    loop is cut at one joint, and the cut is held by constraint rows solved together with
+    the machine's dynamics, directly, by block principal pivoting, rather than swept until
+    they roughly agree. Limits, drives and springs live in the same solve. Small machines go
+    through a dense factorisation of their mass matrix, large ones through the
+    articulated-body recursion, in time linear in their size.</p>
 
-    <p>The rest of the engine doesn't notice: the editor, collision and sleeping still see
-    ordinary bodies. I benchmarked it against my previous solver and Project Chrono, the open
-    alternative to AGX Dynamics, on every machine scene. It holds all of them but one, where
-    Chrono fails four, keeps every tree joint exact, and runs the heaviest test scene in 7 ms of
-    physics per frame against 17 for the old solver and 20 for Chrono.</p>
+    <p>The other half of the work was making it trustworthy. Steps are deterministic, bit
+    for bit. A NaN born in one island can't leak out of it: the world rolls that island
+    back to where the step found it and tells the host. And the tests mostly check physics
+    an engineer would predict: a brake holds its wheel until the torque passes μ times its
+    clamp, a cart whose wheels spin pulls away at μg, a cam's valve floats at the speed its
+    spring predicts.</p>
+
+    <p>What it taught me: when a fix keeps needing another fix, the problem is the
+    formulation, not the code. And a physics test is only worth something if it checks a
+    number you could have worked out on paper.</p>
 
     <h3>⹃ CoachForce</h3>
     <p>On CoachForce, the hard part was not technical. Building alone for months means
-    every decision about what ships, what waits and what gets cut is yours, with
-    nobody to check it against. I had to learn that by understanding what each choice
-    costs, and then by talking to around fifty coaches and managing the roadmap
-    around real needs rather than what I felt like building.</p>
-
-    <p>The technical part had it's challenges, but nothing unusual.</p>
-
-    <p>What I have not done is work inside an engineering team. No code review from someone
-    who knows the codebase better than I do, no estimate I had to defend, no handover. That
-    is the gap, and it is exactly what I am looking for next.</p>
+    every decision about what ships, what waits and what gets cut is yours, with nobody to
+    check it against. I learned to make those calls by working out what each choice costs,
+    then by talking to around fifty coaches and steering the roadmap by their real needs
+    rather than by what I felt like building.</p>
   </section>
 
   <footer>
-    <p class="line">Looking for my first role inside an engineering team, in Czechia.</p>
+    <p class="line">Looking for my first role inside an engineering team in the Czech Republic, ideally where software meets machines.</p>
+    <p class="next">So far I have owned every decision alone. What I want next is a team:
+    code review from people who know more than I do, estimates I have to defend, and code
+    that others depend on.</p>
     <div class="links">
       <a href="mailto:julesdemeo05@gmail.com">julesdemeo05@gmail.com</a>
       <a href="https://linkedin.com/in/jules-demeo">LinkedIn</a>
       <a href="https://github.com/shrrimp">GitHub</a>
+      <a href="./cv.pdf" target="_blank">CV (PDF)</a>
       <a href="https://coachforce.fr/en">CoachForce</a>
     </div>
   </footer>
